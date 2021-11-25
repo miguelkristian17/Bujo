@@ -3,9 +3,16 @@ const router = express.Router();
 const Template = require('../../models/Template');
 const app = express();
 const methodOverride = require('method-override');
-
-
+const bodyParser = require('body-parser');
 app.use(methodOverride('_method'));
+
+
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+app.use(bodyParser.json()); 
+var urlencodedParser = bodyParser.urlencoded({ extended: true })
 
 
 // @route   GET api/templates
@@ -31,7 +38,7 @@ router.get('/', async (req, res) => {
 
 // @route POST api/templates
 // @desc  Create a template
-router.post('/', async (req, res) => {
+router.post('/', urlencodedParser, async (req, res) => {
     if(req.session.user) {
         const { title, image } = req.body;
         try {
@@ -41,7 +48,7 @@ router.post('/', async (req, res) => {
                 user: req.session.user._id
             });
             await newTemplate.save();
-            res.redirect('/index');
+            return res.redirect('/index');
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
@@ -55,7 +62,6 @@ router.post('/', async (req, res) => {
 // @route   DELETE api/templates/:id
 // @desc    Delete a template
 router.delete('/:id',async (req, res) => {
-    console.log(req.params.id)
     try {
         await Template.findByIdAndRemove(req.params.id);
         res.redirect('/index');

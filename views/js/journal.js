@@ -120,29 +120,33 @@ window.addEventListener('load', ()=>{
 
      // save canvas as image and post 
         saveElement.addEventListener("click", ()=>{
+
             if(document.getElementById("title").value === ""){
                 alert("Please enter a title for your template");
             } else {
             var image = canvas.toDataURL("image/png");
             var title = document.getElementById("title").value;
+
             var data = {
                 title : title,
                 image: image
             }
-            
+
             fetch('/api/templates', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
 
             })
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(err => console.log(err));
+            window.location = '/index';
+
         }
+
         })
     
-        window.location("/index")
 });

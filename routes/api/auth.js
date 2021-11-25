@@ -81,7 +81,6 @@ router.post('/', urlencodedParser,[
 // @desc    Logout user & clear session
 // @access  Public
 router.post('/logout', (req, res) => {
-    console.log("Logged out");
     req.session.destroy();
     return res.redirect('/login');
 });

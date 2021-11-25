@@ -9,7 +9,6 @@ logoutButton.addEventListener('click', () => {
         if (data.success) {
             window.location = '/login';
         }
-    }
-    )
+    })
     window.location = '/login';
 });
