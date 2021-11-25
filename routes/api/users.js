@@ -1,12 +1,21 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 const {validationResult, check} = require("express-validator")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const bodyParser = require('body-parser')
 const User = require("../../models/User")
 var dotenv = require('dotenv');
 dotenv.config();
 
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+app.use(bodyParser.json());
+ 
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 //@route GET api/users
 //desc Get all users
@@ -24,40 +33,39 @@ router.get("/", (req, res) => {
 //route POST api/users
 //desc Create a user (REGISTER) and send back a token 
 //@access Public
-router.post("/", [
-    check("name", "Name is required").not().isEmpty(),
+router.post('/', urlencodedParser,[
+    check("name", "Please include a name").isLength({min: 3}),
     check("email", "Please include a valid email").isEmail(),
     check("password", "Please enter a password with 8 or more characters").isLength({min: 8}),
-        check("username","Username is Required")
-        .not()
-        .isEmpty()
-        .custom((value, {req}) => {
-            return User.findOne({username: value}).then(user => {
-                if(user){
-                    return Promise.reject("Username already exists")
-                }
-            })}),
+    check("confirmPassword", "Passwords do not match").custom((value, {req}) => {
+        if(value !== req.body.password){
+            throw new Error("Passwords do not match")
+        }
+        return true
+    })
 ], async (req, res) => {
+
     const errors = validationResult(req)
 
     if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()})
+
+        const alert = errors.array();
+        return res.render('register', {alert} );    
     }
 
-    const {name, email, password, username} = req.body
+    const {name, email, password} = req.body
 
     try {
         let user = await User.findOne({email})
 
         if(user){
-            return res.status(400).json({errors: [{msg: "User already exists"}]})
+            return res.render('register', {alert: [{msg: "User already exists"}]})
         }
 
         user = new User({
             name,
             email,
             password,
-            username
         })
 
         const salt = await bcrypt.genSalt(10)
@@ -65,22 +73,14 @@ router.post("/", [
         user.password = await bcrypt.hash(password, salt)
 
         await user.save()
+        req.session.user = user;
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        }
 
-        const jwtSecret = process.env.JWT_SECRET;
-
-        jwt.sign(payload, jwtSecret, {expiresIn: 360000}, (err, token) => {
-            if(err) throw err
-            res.json({token})
-        })
+        return res.redirect('/index')
         } catch (err) {
+
         console.error(err.message)
-        res.status(500).send("Server Error")
+        return res.status(500).send("Server Error")
     }
 })
 //@route GET api/users/:id

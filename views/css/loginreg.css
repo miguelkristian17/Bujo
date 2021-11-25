@@ -15,7 +15,7 @@ background: linear-gradient(90deg, rgba(239,92,168,1) 0%, rgba(64,212,221,1) 100
 }
 #header{
     width:100vw;
-    height: 12vh;
+    height: 15vh;
     background-color: #3d3d3d;
     text-align: center;
 }
@@ -95,6 +95,12 @@ background: linear-gradient(90deg, rgba(239,92,168,1) 0%, rgba(64,212,221,1) 100
     font-size: 12px;
     font-weight: 600;
     color: black;
+}
+
+.text-red{
+    color: red;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 @media (min-width: 600px) {

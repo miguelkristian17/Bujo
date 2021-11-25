@@ -8,6 +8,8 @@ window.addEventListener('load', ()=>{
     const templateElement = document.getElementById("template");
     const penElement = document.getElementById("pen");
     const markerElement = document.getElementById("marker");
+    const saveElement = document.getElementById("save");
+    const textElement = document.getElementById("text");
 
     let drawing =false;
     let currentX;
@@ -112,7 +114,35 @@ window.addEventListener('load', ()=>{
   clearCanvas.addEventListener("click", ()=>{
       context.clearRect(0, 0, canvas.width, canvas.height);
   })
-     
-     
+  
 
+
+
+     // save canvas as image and post 
+        saveElement.addEventListener("click", ()=>{
+            if(document.getElementById("title").value === ""){
+                alert("Please enter a title for your template");
+            } else {
+            var image = canvas.toDataURL("image/png");
+            var title = document.getElementById("title").value;
+            var data = {
+                title : title,
+                image: image
+            }
+            
+            fetch('/api/templates', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+        }
+        })
+    
+        window.location("/index")
 });

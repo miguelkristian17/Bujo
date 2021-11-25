@@ -7,20 +7,21 @@ module.exports = function(req, res, next) {
     const secret = process.env.JWT_SECRET;
 
     if (!token) {
-        return res.status(401).json({ msg: 'No token, authorization denied' });
+        return res.render( 'login', {alert: [{msg: "Please log in"}]});
     }
 
     try {
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
-                return res.status(401).json({ msg: 'Token is not valid' });
+                return res.render( 'login',{ alert: 'Please log in ' });
             } else {
             req.user = decoded.user;
+            
             next();
             }
         });
     } catch (err) {
-        res.status(500).json({ msg: 'Server error' });
+        res.status(500).json({ alert: 'Server error' });
     }
 };
 
