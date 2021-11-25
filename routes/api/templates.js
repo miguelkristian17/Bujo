@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
                 user: req.session.user._id
             });
             await newTemplate.save();
-            return res.redirect('/index');
+            res.redirect('/index');
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
@@ -51,24 +51,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-// @route   GET api/templates/:id
-// @desc    Get template by id
-router.get('/:id', async (req, res) => {
-    try {
-        const template = await Template.findById(req.params.id);
-        // res.render('index', [{template}]);
-        res.send(template);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-
 
 // @route   DELETE api/templates/:id
 // @desc    Delete a template
 router.delete('/:id',async (req, res) => {
-    console.log("route hit")
+    console.log(req.params.id)
     try {
         await Template.findByIdAndRemove(req.params.id);
         res.redirect('/index');

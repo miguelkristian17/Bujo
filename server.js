@@ -2,7 +2,6 @@ const express = require("express");
 const connectDB = require("./config/db");
 const path = require('path');
 const app = express();
-const User = require('./models/User');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const Template = require('./models/Template');
@@ -12,12 +11,16 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + "/views"));
 
 app.use(expressSession({
     secret: 'secret',
     resave: false,
     saveUninitialized: false
 }));
+
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 //Connect Database
 connectDB();
@@ -46,7 +49,6 @@ app.get("/journal", async (req, res) => {
     res.redirect('/login');
 });
 
-
 app.get("/index", (req, res) => {
     if (req.session.user) {
         Template.find({user: req.session.user._id}, (err, templates) => {
@@ -59,10 +61,23 @@ app.get("/index", (req, res) => {
         res.redirect('/login');
     }
 
+    app.get("/template/:id", (req, res) => {
+        const templateID = req.params.id;
+        if (req.session.user) {
+            Template.findById(templateID, (err, template) => {
+                if(err) console.log(err);
+                else {
+                    res.render('template', {template});
+                }
+            })
+        } else {
+            res.redirect('/login');
+        }
+    
+    });
+
+
 });
-
-
-
 
 const PORT = process.env.PORT || 5000;
 
