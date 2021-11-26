@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router();
 const {validationResult, check} = require("express-validator")
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser')
 const User = require("../../models/User")
 var dotenv = require('dotenv');

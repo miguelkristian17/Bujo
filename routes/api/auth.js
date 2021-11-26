@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 var dotenv = require('dotenv');
 const app = express();
-const cookieParser = require('cookie-parser');
 dotenv.config();
 
 
@@ -20,14 +17,12 @@ app.use(bodyParser.json());
  
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-app.use(cookieParser());
 // @route   GET api/auth
 // @desc    Get logged in user info
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
-        console.log(req.cookies);
         res.json(user);
     } catch (err) {
         console.error(err.message);

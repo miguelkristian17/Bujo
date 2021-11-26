@@ -2,12 +2,10 @@ const express = require("express");
 const connectDB = require("./config/db");
 const path = require('path');
 const app = express();
-const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const Template = require('./models/Template');
 
 app.use(express.static(path.join(__dirname + '/views')));
-app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -49,14 +47,10 @@ app.get("/journal", async (req, res) => {
     res.redirect('/login');
 });
 
-app.get("/index", (req, res) => {
+app.get("/index", async (req, res) => {
     if (req.session.user) {
-        Template.find({user: req.session.user._id}, (err, templates) => {
-            if(err) console.log(err);
-            else {
-                res.render('index', {templates: templates});
-            }
-        })
+        const templates = await Template.find({user: req.session.user._id});
+        res.render('index', {templates});
     } else {
         res.redirect('/login');
     }
@@ -79,4 +73,5 @@ app.get("/index", (req, res) => {
 
 });
 
-app.listen(process.env.PORT || 5000, () => console.log(`Server is running on port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -48,6 +48,7 @@ router.post('/', urlencodedParser, async (req, res) => {
                 user: req.session.user._id
             });
             await newTemplate.save();
+
             return res.redirect('/index');
         } catch (err) {
             console.error(err.message);
