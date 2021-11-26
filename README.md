@@ -17,7 +17,11 @@ View the video demo here:
 
 https://unnamedrd.github.io/BuJo-Landing-Page/Learn.html
 
-https://user-images.githubusercontent.com/93551062/143656624-6ff73c6d-27d3-4545-99f2-74cb35ab203c.MOV
+
+
+
+https://user-images.githubusercontent.com/93551062/143656808-23577afe-f4a4-4ddc-93b5-03eacbddec77.mp4
+
 
 
 
