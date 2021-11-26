@@ -96,7 +96,7 @@ window.addEventListener('load', ()=>{
         insertImg();
         function insertImg(){
             img = new Image();
-            img.src = '../assets/Template1.png';
+            img.src = '../Assets/Template1.png';
             img.onload = function(){
                 context.drawImage(img, 0, 0, 400, 800 );
             }
