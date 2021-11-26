@@ -15,7 +15,7 @@ A short video demonstrating the functionaity of the application
 
 View the video demo here: 
 
-file:///Users/najwana/unnamedRd/BuJo-Landing-Page/Learn.html
+https://unnamedrd.github.io/BuJo-Landing-Page/Learn.html
 
 https://user-images.githubusercontent.com/93551062/143656624-6ff73c6d-27d3-4545-99f2-74cb35ab203c.MOV
 
