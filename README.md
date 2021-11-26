@@ -12,9 +12,14 @@ and easy to use drawing canvas. Users have access to their saved journals.
 
 A short video demonstrating the functionaity of the application
 
+
 View the video demo here: 
 
+file:///Users/najwana/unnamedRd/BuJo
 
+https://user-images.githubusercontent.com/93551062/143656624-6ff73c6d-27d3-4545-99f2-74cb35ab203c.MOV
+
+-Landing-Page/Learn.html
 
 
 ## Screenshots
