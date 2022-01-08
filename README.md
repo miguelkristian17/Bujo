@@ -4,7 +4,7 @@ A web application which allows users to creatively express themselves with a sim
 and easy to use drawing canvas. Users have access to their saved journals.
 ## Collaborators
 
--  Naj N, Front-end Developer [@unamedrd](https://www.github.com/unamedrd)
+-  Naj N, Front-end Developer [@unamedrd](https://www.github.com/unnamedrd)
 -  Miguel Martinez, Full-stack Developer [@miguelkristian17](https://github.com/miguelkristian17)
 -  Dave Novac, UI/UX Designer [@davenovac](https://www.novakdr.com/)
 
@@ -73,4 +73,9 @@ Start the server
 
 ## Usage
 
-Visit localhost:5000/register to view the appp
+Visit localhost:5000/register to view the app
+
+Demo User:
+
+email: test@email.com
+password: asdfasdf
