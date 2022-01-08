@@ -78,4 +78,5 @@ Visit localhost:5000/register to view the app
 Demo User:
 
 email: test@email.com
+
 password: asdfasdf
